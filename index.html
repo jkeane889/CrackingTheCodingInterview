@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cracking the Coding Interview Testing</title>
+    <h1>Test Here!</h1>
+    <script>
+        // Sum Lists
+
+        // I - two numbers represented by a linked list, with node's value
+        //      representing digit of number in reverse order
+        // O - sum of two linked-listed numbers as its own linkedList
+        // C - time/space
+        // E - uneven linked list lengths (adding zero to front of number if necessary)
+
+        const LinkedList = () => {
+            var list = {};
+            list.head = null;
+            list.tail = null;
+        
+            list.addToTail = (value) => {
+            let newTail = Node(value);
+            
+            if (!list.head) {
+                list.head = newTail;
+            };
+        
+            if (list.tail) {
+                list.tail.next = newTail;
+            };
+        
+            list.tail = newTail;
+            };
+        
+            list.removeHead = () => {
+            if (list.head === null) {
+                return null
+            }
+        
+            let currentHead = list.head;
+            list.head = list.head.next;
+        
+            return currentHead.value;
+            };
+        
+            list.contains = (target) => {
+            let node = list.head;
+        
+            while (node) {
+                if (node.value === target) {
+                return true
+                }
+        
+                node = node.next
+            }
+        
+            return false
+            };
+        
+            return list;
+        };
+        
+        var Node = function(value) {
+            var node = {};
+        
+            node.value = value;
+            node.next = null;
+        
+            return node;
+        };
+
+        linkedListOne = LinkedList();
+        linkedListTwo = LinkedList();
+
+        linkedListOne.addToTail(7);
+        linkedListOne.addToTail(1);
+        linkedListOne.addToTail(6);
+
+        linkedListTwo.addToTail(5);
+        linkedListTwo.addToTail(9);
+        linkedListTwo.addToTail(2);
+
+        console.log("This is the first linkedList: ", linkedListOne);
+        console.log("This is the second linkedList: ", linkedListTwo);
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
