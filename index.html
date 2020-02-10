@@ -7,94 +7,63 @@
     <h1>Test Here!</h1>
     <script>
 
-        const LinkedList = () => {
-            var list = {};
-            list.head = null;
-            list.tail = null;
+// Functional method for Stack implementation
 
-            list.addToTail = (value) => {
-                let newTail = Node(value);
-                
-                if (!list.head) {
-                    list.head = newTail;
-                };
+    const Stack = (capacity) => {
+        const totalCapacity = capacity;
+        let instance = {};
+        let size = 1;
 
-                if (list.tail) {
-                    list.tail.next = newTail;
-                };
-
-                list.tail = newTail;
-            };
-
-            list.removeHead = () => {
-                if (list.head === null) {
-                    return null
-                }
-
-                let currentHead = list.head;
-                list.head = list.head.next;
-
-                return currentHead.value;
-            };
-
-            list.contains = (target) => {
-                let node = list.head;
-
-                while (node) {
-                    if (node.value === target) {
-                        return true
-                    }
-
-                    node = node.next
-                }
-
+        instance.push = (value) => {
+            instance[size] = value;
+            size += 1;
+        };
+        
+        instance.pop = () => {
+            let element = instance[size];
+            delete instance[size];
+            size -= 1;
+            return element;
+        }
+        
+        instance.peek = () => {
+            if (size <= totalCapacity) {
+                return true
+            } else {
                 return false
-            };
+            }
+        }
 
-            return list;
-        };
+        return instance;
+    }
 
-        var Node = function(value) {
-            var node = {};
+    const SetOfStacks = (plates) => {
+        let stackOne = Stack(3);
+        let stackTwo = Stack(5);
+        let stackThree = Stack(2);
 
-            node.value = value;
-            node.next = null;
-
-            return node;
-        };
-
-        linkedListOne = LinkedList();
-        linkedListOne.addToTail("A");
-        linkedListOne.addToTail("B");
-        linkedListOne.addToTail("C");
-        linkedListOne.addToTail("D");
-        linkedListOne.addToTail("E");
-        linkedListOne.tail.next = "C";
-
-        // console.log("This is the new linkedList: ", linkedListOne)
-
-        const runAndCheck = (list) => {
-            let node = list.head;
-            let circular = null;
-
-            while (node) {
-                let nextNode = list.head; 
-                while (nextNode) {
-                    if (node.value === nextNode.next) {
-                        circular = node;
-                        return circular;
-                        break;
+        let stacks = [stackOne, stackTwo, stackThree];
+        
+        for (let i = 0; i < stacks.length; i++) {
+            let currentStack = stacks[i];
+            for (let j = 0; j < plates; j++) {
+                if (currentStack.peek()) {
+                    currentStack.push(j)
+                } else if (!currentStack.peek()) {
+                    i += 1;
+                    currentStack = stacks[i];
+                    if (currentStack === undefined) {
+                        let remainingPlates = plates - j;
+                        let newStack = Stack(remainingPlates);
+                        currentStack = newStack;
                     }
-                    nextNode = nextNode.next;
-                };
+                    currentStack.push(j)
+                }
+            }
+        }
+    }
 
-                node = node.next
-            };
-
-            return circular;
-        };
-
-        console.log("This the circular node: ", runAndCheck(linkedListOne));
+    console.log("This the Set-Of-Stacks method: ", SetOfStacks(12));
 
     </script>
 </head>
