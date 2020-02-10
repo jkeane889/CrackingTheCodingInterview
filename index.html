@@ -6,129 +6,131 @@
     <title>Cracking the Coding Interview Testing</title>
     <h1>Test Here!</h1>
     <script>
-        // Sum Lists
-
-        // I - two numbers represented by a linked list, with node's value
-        //      representing digit of number in reverse order
-        // O - sum of two linked-listed numbers as its own linkedList
-        // C - time/space
-        // E - uneven linked list lengths (adding zero to front of number if necessary)
 
         const LinkedList = () => {
             var list = {};
             list.head = null;
             list.tail = null;
-        
+
             list.addToTail = (value) => {
             let newTail = Node(value);
             
             if (!list.head) {
                 list.head = newTail;
             };
-        
+
             if (list.tail) {
                 list.tail.next = newTail;
             };
-        
+
             list.tail = newTail;
             };
-        
+
             list.removeHead = () => {
             if (list.head === null) {
                 return null
             }
-        
+
             let currentHead = list.head;
             list.head = list.head.next;
-        
+
             return currentHead.value;
             };
-        
+
             list.contains = (target) => {
             let node = list.head;
-        
+
             while (node) {
                 if (node.value === target) {
                 return true
                 }
-        
+
                 node = node.next
             }
-        
+
             return false
             };
-        
+
             return list;
         };
-        
+
         var Node = function(value) {
             var node = {};
-        
+
             node.value = value;
             node.next = null;
-        
+
             return node;
         };
 
-        linkedListOne = LinkedList();
-        linkedListTwo = LinkedList();
+       /*
+            Palindrome LinkedList Checker
+            Implement a function to check if a linked list is a palindrome. 
 
-        linkedListOne.addToTail(7);
-        linkedListOne.addToTail(1);
-        linkedListOne.addToTail(6);
+        */
 
-        linkedListTwo.addToTail(5);
-        linkedListTwo.addToTail(9);
-        linkedListTwo.addToTail(2);
+        // I - LinkedList with string values
+        // O - Boolean indicating whether a linkedList is a palindrome
+        // C - time/space
+        // E - n/a
 
-        console.log("This is the first linkedList: ", linkedListOne);
-        console.log("This is the second linkedList: ", linkedListTwo);
+        /*
 
-        const sumLists = (list1, list2) => {
-            let reversedStringOne = createString(list1);
-            let reversedStringTwo = createString(list2);
+            create helper function to check if a string is a palindrome
+                takes string as a parameter and calls toLower() on it
 
-            if (reversedStringOne.length < reversedStringTwo.length) {
-                reversedStringOne.unshift('0');
-            } else if (reversedStringTwo.length < reversedStringOne.length) {
-                reversedStringTwo.unshift('0');
+                if string === string.reverse
+                    return true
+                else 
+                    return false
+    
+            create function to iterate over values in LinkedList
+                takes linkedList as a parameter
+                create an empty string
+                look at head and set equal to node
+
+                while (node.next)
+                    add node.value to empty string
+                    reset node to node.next
+
+                return palindromeChecker of empty string
+
+        */
+
+        const palindromeChecker = (str) => {
+            let lowerStr = str.toLowerCase();
+            let revStrArr = str.toLowerCase().split('').reverse().join('');
+
+            if (lowerStr === revStrArr) {
+                return true
+            } else {
+                return false
             }
-
-            let parsedStringOne = parseInt(reversedStringOne);
-            let parsedStringTwo = parseInt(reversedStringTwo);
-
-            let sum = parsedStringOne + parsedStringTwo;
-            let sumList = reversedLinkedList(sum);
-            
-            return sumList;
         }
 
-        const reversedLinkedList = (str) => {
-            let stringArray = str.toString().split('');
-            let newLinkedList = LinkedList();
-
-            while (stringArray.length) {
-                let char = stringArray.pop();
-                newLinkedList.addToTail(char);
-            }
-
-            return newLinkedList
-        }
-
-        const createString = (list) => {
-            let digitString = [];
+        const palindromeList = (list) => {
+            let newString = '';
             let node = list.head;
 
             while (node) {
-                let nodeStr = node.value.toString();
-                digitString.unshift(nodeStr);
+                newString += node.value;
                 node = node.next;
             }
 
-            return digitString.join('')
+            return palindromeChecker(newString);
         };
 
-        sumLists(linkedListOne, linkedListTwo);
+        let stringPal = "racecar"
+        linkedListPal = LinkedList();
+        linkedListPal.addToTail("r");
+        linkedListPal.addToTail("a");
+        linkedListPal.addToTail("c");
+        linkedListPal.addToTail("e");
+        linkedListPal.addToTail("c");
+        linkedListPal.addToTail("a");
+        linkedListPal.addToTail("r");
+
+        console.log(`Is ${stringPal} a palindrome: `, palindromeList(linkedListPal));
 
     </script>
 </head>
