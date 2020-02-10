@@ -31,46 +31,44 @@
             }
         }
 
-        // ES6 Class syntax
-        class MyQueue {
-            constructor() {
-                this.stackOne = new Stack();
-                this.stackTwo = new Stack();
-                this.dequeudVal = null;
-            }
+        const sortStack = (stackOne, stackTwo, value) => {
+            let checked = stackOne.size();
+            let pushed = false;
 
-            enqueue(value) {
-                this.stackOne.push(value);
-            }
-
-            dequeue() {
-                if (this.stackOne.size() !== 0) {
-                    while (this.stackOne.size() > 0 && !this.dequeudVal) {
-                        let temp = this.stackOne.pop();
-                        this.stackTwo.push(temp);
-                        if (this.stackOne.size() === 1) {
-                            this.dequeudVal = this.stackOne.pop();
-                            while (this.stackTwo.size() > 0) {
-                                let orig = this.stackTwo.pop();
-                                this.stackOne.push(orig);
-                            }
-                        }
-                    }
+            while (checked > 0) {
+                let temp = stackOne.pop();
+                let obj = {
+                    checked: true,
+                    val: temp,
+                    diff: (temp > value) ? true : false
                 }
-    
-                return this.dequeudVal;
+                stackTwo.push(obj);
+                checked -= 1;
             }
-        }
 
-        let newQueue = new MyQueue();
-        console.log("This is the new queue: ", newQueue);
-        newQueue.enqueue(5);
-        newQueue.enqueue(7);
-        newQueue.enqueue(12);
-        newQueue.enqueue(9);
-        newQueue.enqueue(4);
-        console.log(newQueue.dequeue())
-        
+            while (stackTwo.size()) {
+                let newTemp = stackTwo.pop();
+                if (!newTemp.diff) {
+                    stackOne.push(newTemp.val)
+                } else if (newTemp.diff && !pushed) {
+                    pushed = true;
+                    stackOne.push(value)
+                    stackOne.push(newTemp.val)
+                } else {
+                    stackOne.push(newTemp.val)
+                }
+            }
+        };
+
+        let stkOne = new Stack();
+        let stkTwo = new Stack();
+
+        stkOne.push(3);
+        stkOne.push(5);
+        stkOne.push(10);
+        sortStack(stkOne, stkTwo, 4)
+        console.log("This is the updated original stack: ", stkOne);
+
     </script>
 </head>
 <body>
