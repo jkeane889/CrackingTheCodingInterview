@@ -7,8 +7,70 @@
     <h1>Test Here!</h1>
     <script>
 
-        
+        class Stack {
+            constructor() {
+                this.storage = {};
+                this.i = 0;
+            }
 
+            push(val) {
+                this.storage[this.i] = val;
+                this.i += 1;
+            }
+
+            pop() {
+                let element = this.storage[this.i - 1];
+                delete this.storage[this.i - 1];
+                this.i -= 1;
+                return element;
+            }
+
+            size() {
+                let keys = Object.keys(this.storage);
+                return keys.length
+            }
+        }
+
+        // ES6 Class syntax
+        class MyQueue {
+            constructor() {
+                this.stackOne = new Stack();
+                this.stackTwo = new Stack();
+                this.dequeudVal = null;
+            }
+
+            enqueue(value) {
+                this.stackOne.push(value);
+            }
+
+            dequeue() {
+                if (this.stackOne.size() !== 0) {
+                    while (this.stackOne.size() > 0 && !this.dequeudVal) {
+                        let temp = this.stackOne.pop();
+                        this.stackTwo.push(temp);
+                        if (this.stackOne.size() === 1) {
+                            this.dequeudVal = this.stackOne.pop();
+                            while (this.stackTwo.size() > 0) {
+                                let orig = this.stackTwo.pop();
+                                this.stackOne.push(orig);
+                            }
+                        }
+                    }
+                }
+    
+                return this.dequeudVal;
+            }
+        }
+
+        let newQueue = new MyQueue();
+        console.log("This is the new queue: ", newQueue);
+        newQueue.enqueue(5);
+        newQueue.enqueue(7);
+        newQueue.enqueue(12);
+        newQueue.enqueue(9);
+        newQueue.enqueue(4);
+        console.log(newQueue.dequeue())
+        
     </script>
 </head>
 <body>
