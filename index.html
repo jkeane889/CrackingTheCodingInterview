@@ -13,42 +13,42 @@
             list.tail = null;
 
             list.addToTail = (value) => {
-            let newTail = Node(value);
-            
-            if (!list.head) {
-                list.head = newTail;
-            };
+                let newTail = Node(value);
+                
+                if (!list.head) {
+                    list.head = newTail;
+                };
 
-            if (list.tail) {
-                list.tail.next = newTail;
-            };
+                if (list.tail) {
+                    list.tail.next = newTail;
+                };
 
-            list.tail = newTail;
+                list.tail = newTail;
             };
 
             list.removeHead = () => {
-            if (list.head === null) {
-                return null
-            }
+                if (list.head === null) {
+                    return null
+                }
 
-            let currentHead = list.head;
-            list.head = list.head.next;
+                let currentHead = list.head;
+                list.head = list.head.next;
 
-            return currentHead.value;
+                return currentHead.value;
             };
 
             list.contains = (target) => {
-            let node = list.head;
+                let node = list.head;
 
-            while (node) {
-                if (node.value === target) {
-                return true
+                while (node) {
+                    if (node.value === target) {
+                        return true
+                    }
+
+                    node = node.next
                 }
 
-                node = node.next
-            }
-
-            return false
+                return false
             };
 
             return list;
@@ -63,97 +63,38 @@
             return node;
         };
 
-        /*
-            LinkedList Intersection
-
-            Given two (singly) linked lists, determine if the two lists intersect. Return the intersecting node. Note that the intersection is defined based on reference, not value. That is, if the kth
-            node of the first linked list is the exact same node (by reference) as the jth node of the second
-            linked list, then they are intersecting. 
-
-        */
-
         linkedListOne = LinkedList();
-        linkedListTwo = LinkedList();
+        linkedListOne.addToTail("A");
+        linkedListOne.addToTail("B");
+        linkedListOne.addToTail("C");
+        linkedListOne.addToTail("D");
+        linkedListOne.addToTail("E");
+        linkedListOne.tail.next = "C";
 
-        linkedListOne.addToTail(4);
-        linkedListOne.addToTail(10);
-        linkedListOne.addToTail(13);
-        linkedListOne.addToTail(3);
-        linkedListOne.addToTail(7);
-        linkedListOne.addToTail(5);
+        // console.log("This is the new linkedList: ", linkedListOne)
 
-        linkedListTwo.addToTail(2);
-        linkedListTwo.addToTail(5);
-        linkedListTwo.addToTail(6);
-        linkedListTwo.addToTail(13);
-        linkedListTwo.addToTail(3);
-        linkedListTwo.addToTail(7);
-        linkedListTwo.addToTail(5);
-
-        const getListLength = (list) => {
+        const runAndCheck = (list) => {
             let node = list.head;
-            let length = 0;
+            let circular = null;
 
             while (node) {
-                length += 1;
-                node = node.next;
+                let nextNode = list.head; 
+                while (nextNode) {
+                    if (node.value === nextNode.next) {
+                        circular = node;
+                        return circular;
+                        break;
+                    }
+                    nextNode = nextNode.next;
+                };
+
+                node = node.next
             };
 
-            return length
+            return circular;
         };
 
-        const startComparison = (lnglist, difference) => {
-            let node = lnglist.head;
-
-            while (node && difference) {
-                difference -= 1;
-                node = node.next;
-            };
-
-            return node
-        };
-
-        const findIntersection = (listOne, listTwo) => {
-            let lengthOne = getListLength(listOne);
-            let lengthTwo = getListLength(listTwo);
-            let intersection = null;
-
-            if (lengthOne > lengthTwo) {
-                let diff = lengthOne - lengthTwo;
-                let startNode = startComparison(listOne, diff);
-                let secondNode = listTwo.head;
-
-                while (startNode && secondNode) {
-                    if (startNode.value === secondNode.value) {
-                        intersection = secondNode
-                        return intersection;
-                        break;
-                    } else {
-                        secondNode = secondNode.next;
-                        startNode = startNode.next;
-                    }
-                }
-            } else if (lengthTwo > lengthOne) {
-                let diff = lengthTwo - lengthOne;
-                let startNode = startComparison(listTwo, diff);
-                let firstNode = listOne.head;
-
-                while (startNode && firstNode) {
-                    if (startNode.value === firstNode.value) {
-                        intersection = firstNode
-                        return intersection;
-                        break;
-                    } else {
-                        firstNode = firstNode.next; 
-                        startNode = startNode.next;
-                    }
-                }
-            }
-
-            return intersection
-        };
-
-        console.log(findIntersection(linkedListOne, linkedListTwo));
+        console.log("This the circular node: ", runAndCheck(linkedListOne));
 
     </script>
 </head>
