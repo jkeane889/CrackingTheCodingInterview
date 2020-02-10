@@ -84,6 +84,52 @@
         console.log("This is the first linkedList: ", linkedListOne);
         console.log("This is the second linkedList: ", linkedListTwo);
 
+        const sumLists = (list1, list2) => {
+            let reversedStringOne = createString(list1);
+            let reversedStringTwo = createString(list2);
+
+            if (reversedStringOne.length < reversedStringTwo.length) {
+                reversedStringOne.unshift('0');
+            } else if (reversedStringTwo.length < reversedStringOne.length) {
+                reversedStringTwo.unshift('0');
+            }
+
+            let parsedStringOne = parseInt(reversedStringOne);
+            let parsedStringTwo = parseInt(reversedStringTwo);
+
+            let sum = parsedStringOne + parsedStringTwo;
+            let sumList = reversedLinkedList(sum);
+            
+            return sumList;
+        }
+
+        const reversedLinkedList = (str) => {
+            let stringArray = str.toString().split('');
+            let newLinkedList = LinkedList();
+
+            while (stringArray.length) {
+                let char = stringArray.pop();
+                newLinkedList.addToTail(char);
+            }
+
+            return newLinkedList
+        }
+
+        const createString = (list) => {
+            let digitString = [];
+            let node = list.head;
+
+            while (node) {
+                let nodeStr = node.value.toString();
+                digitString.unshift(nodeStr);
+                node = node.next;
+            }
+
+            return digitString.join('')
+        };
+
+        sumLists(linkedListOne, linkedListTwo);
+
     </script>
 </head>
 <body>
