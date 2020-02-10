@@ -63,74 +63,97 @@
             return node;
         };
 
-       /*
-            Palindrome LinkedList Checker
-            Implement a function to check if a linked list is a palindrome. 
-
-        */
-
-        // I - LinkedList with string values
-        // O - Boolean indicating whether a linkedList is a palindrome
-        // C - time/space
-        // E - n/a
-
         /*
+            LinkedList Intersection
 
-            create helper function to check if a string is a palindrome
-                takes string as a parameter and calls toLower() on it
-
-                if string === string.reverse
-                    return true
-                else 
-                    return false
-    
-            create function to iterate over values in LinkedList
-                takes linkedList as a parameter
-                create an empty string
-                look at head and set equal to node
-
-                while (node.next)
-                    add node.value to empty string
-                    reset node to node.next
-
-                return palindromeChecker of empty string
+            Given two (singly) linked lists, determine if the two lists intersect. Return the intersecting node. Note that the intersection is defined based on reference, not value. That is, if the kth
+            node of the first linked list is the exact same node (by reference) as the jth node of the second
+            linked list, then they are intersecting. 
 
         */
 
-        const palindromeChecker = (str) => {
-            let lowerStr = str.toLowerCase();
-            let revStrArr = str.toLowerCase().split('').reverse().join('');
+        linkedListOne = LinkedList();
+        linkedListTwo = LinkedList();
 
-            if (lowerStr === revStrArr) {
-                return true
-            } else {
-                return false
-            }
-        }
+        linkedListOne.addToTail(4);
+        linkedListOne.addToTail(10);
+        linkedListOne.addToTail(13);
+        linkedListOne.addToTail(3);
+        linkedListOne.addToTail(7);
+        linkedListOne.addToTail(5);
 
-        const palindromeList = (list) => {
-            let newString = '';
+        linkedListTwo.addToTail(2);
+        linkedListTwo.addToTail(5);
+        linkedListTwo.addToTail(6);
+        linkedListTwo.addToTail(13);
+        linkedListTwo.addToTail(3);
+        linkedListTwo.addToTail(7);
+        linkedListTwo.addToTail(5);
+
+        const getListLength = (list) => {
             let node = list.head;
+            let length = 0;
 
             while (node) {
-                newString += node.value;
+                length += 1;
                 node = node.next;
-            }
+            };
 
-            return palindromeChecker(newString);
+            return length
         };
 
-        let stringPal = "racecar"
-        linkedListPal = LinkedList();
-        linkedListPal.addToTail("r");
-        linkedListPal.addToTail("a");
-        linkedListPal.addToTail("c");
-        linkedListPal.addToTail("e");
-        linkedListPal.addToTail("c");
-        linkedListPal.addToTail("a");
-        linkedListPal.addToTail("r");
+        const startComparison = (lnglist, difference) => {
+            let node = lnglist.head;
 
-        console.log(`Is ${stringPal} a palindrome: `, palindromeList(linkedListPal));
+            while (node && difference) {
+                difference -= 1;
+                node = node.next;
+            };
+
+            return node
+        };
+
+        const findIntersection = (listOne, listTwo) => {
+            let lengthOne = getListLength(listOne);
+            let lengthTwo = getListLength(listTwo);
+            let intersection = null;
+
+            if (lengthOne > lengthTwo) {
+                let diff = lengthOne - lengthTwo;
+                let startNode = startComparison(listOne, diff);
+                let secondNode = listTwo.head;
+
+                while (startNode && secondNode) {
+                    if (startNode.value === secondNode.value) {
+                        intersection = secondNode
+                        return intersection;
+                        break;
+                    } else {
+                        secondNode = secondNode.next;
+                        startNode = startNode.next;
+                    }
+                }
+            } else if (lengthTwo > lengthOne) {
+                let diff = lengthTwo - lengthOne;
+                let startNode = startComparison(listTwo, diff);
+                let firstNode = listOne.head;
+
+                while (startNode && firstNode) {
+                    if (startNode.value === firstNode.value) {
+                        intersection = firstNode
+                        return intersection;
+                        break;
+                    } else {
+                        firstNode = firstNode.next; 
+                        startNode = startNode.next;
+                    }
+                }
+            }
+
+            return intersection
+        };
+
+        console.log(findIntersection(linkedListOne, linkedListTwo));
 
     </script>
 </head>
