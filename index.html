@@ -7,67 +7,161 @@
     <h1>Test Here!</h1>
     <script>
 
-        class Stack {
-            constructor() {
-                this.storage = {};
-                this.i = 0;
+    var LinkedList = function() {
+        var list = {};
+        list.head = null;
+        list.tail = null;
+
+        list.addToTail = function(value) {
+            let newTail = Node(value);
+            
+            if (!list.head) {
+                list.head = newTail;
+            };
+
+            if (list.tail) {
+               list.tail.next = newTail;
+            };
+
+            list.tail = newTail;
+        };
+
+        list.removeHead = function() {
+            if (list.head === null) {
+            return null
             }
 
-            push(val) {
-                this.storage[this.i] = val;
-                this.i += 1;
+            let currentHead = list.head;
+            list.head = list.head.next;
+
+            return currentHead.value;
+        };
+
+        list.contains = function(target) {
+            let node = list.head;
+
+            while (node) {
+                if (node.value === target) {
+                    return true
+                }
+
+                node = node.next
             }
 
-            pop() {
-                let element = this.storage[this.i - 1];
-                delete this.storage[this.i - 1];
-                this.i -= 1;
-                return element;
-            }
+            return false
+        };
 
-            size() {
-                let keys = Object.keys(this.storage);
-                return keys.length
+        return list;
+    };
+    
+    var Node = function(value) {
+        var node = {};
+
+        node.value = value;
+        node.next = null;
+
+        return node;
+    };
+
+    class Queue {
+        // Hey! Rewrite in the new style. Your code will wind up looking very similar,
+        // but try not not reference your old code in writing the new style.
+        constructor() {
+            this.storage = {};
+            this.count = 0;
+            this.last = 1;
+            this.first = 1;
+        }
+
+        enqueue(value) {
+            this.storage[this.last] = value;
+            this.count++;
+            this.last++;
+        }
+
+        dequeue() {
+            if (this.count > 0) {
+                let dequeued = this.storage[this.first];
+                delete this.storage[this.first];
+                this.count--;
+                this.first++;
+                return dequeued
             }
         }
 
-        const sortStack = (stackOne, stackTwo, value) => {
-            let checked = stackOne.size();
-            let pushed = false;
+        size() {
+            return this.count;
+        }
+    }
 
-            while (checked > 0) {
-                let temp = stackOne.pop();
-                let obj = {
-                    checked: true,
-                    val: temp,
-                    diff: (temp > value) ? true : false
-                }
-                stackTwo.push(obj);
-                checked -= 1;
+    class AnimalShelter {
+
+        constructor() {
+            this.allAnimals = LinkedList(); 
+            this.catQueue = new Queue;
+            this.dogQueue = new Queue;
+        }
+        
+        enqueue(name, animalType, date) {
+            let newAnimal = {};
+            newAnimal.name = name;
+            newAnimal.type = animalType;
+            newAnimal.date = date;
+
+            if (animalType === 'cat') {
+                this.catQueue.enqueue(newAnimal);
             }
 
-            while (stackTwo.size()) {
-                let newTemp = stackTwo.pop();
-                if (!newTemp.diff) {
-                    stackOne.push(newTemp.val)
-                } else if (newTemp.diff && !pushed) {
-                    pushed = true;
-                    stackOne.push(value)
-                    stackOne.push(newTemp.val)
-                } else {
-                    stackOne.push(newTemp.val)
+            if (animalType === 'dog') {
+                this.dogQueue.enqueue(newAnimal);
+            }
+
+            this.allAnimals.addToTail(newAnimal)
+        } 
+
+        dequeueAny() {
+            let earliestDate = new Date();
+            let oldestAnimal = null;
+
+            this.allAnimals.getOldest = (date) => {
+                let node = this.allAnimals.head;
+
+                while (node) {
+                    let deliveryDate = new Date(node.value.date);
+                    if (deliveryDate < earliestDate) {
+                        earliestDate = deliveryDate; 
+                        oldestAnimal = node;
+                        node = node.next  
+                    } else {
+                        node = node.next
+                    }
                 }
             }
-        };
 
-        let stkOne = new Stack();
-        let stkTwo = new Stack();
+            this.allAnimals.getOldest(earliestDate);
+            return oldestAnimal;
+        }
 
-        stkOne.push(3);
-        stkOne.push(5);
-        stkOne.push(10);
-        sortStack(stkOne, stkTwo, 4)
-        console.log("This is the updated original stack: ", stkOne);
+        dequeueDog() {
+            let oldestDog = this.dogQueue.dequeue();
+            return oldestDog; 
+        }
+
+        dequeueCat() {
+            let oldestCat = this.catQueue.dequeue();
+            return oldestCat;
+        }
+    };
+
+    let newAnimalShelter = new AnimalShelter;
+    newAnimalShelter.enqueue('Frank', 'cat', '1/20/2020');
+    newAnimalShelter.enqueue('Rommel', 'dog', '1/28/2020');
+    newAnimalShelter.enqueue('Jerry', 'dog', '2/05/2020');
+    newAnimalShelter.enqueue('Tom', 'cat', '2/09/2020');
+    newAnimalShelter.enqueue('Gary', 'dog', '2/10/2020');
+    let oldestAnimal = newAnimalShelter.dequeueAny();
+    let dog1 = newAnimalShelter.dequeueDog();
+    let cat1 = newAnimalShelter.dequeueCat();
 
     </script>
 </head>
