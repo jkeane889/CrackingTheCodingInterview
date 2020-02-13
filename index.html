@@ -7,38 +7,75 @@
     <h1>Test Here!</h1>
     <script>
 
-    var LinkedList = function() {
-        var list = {};
-        list.head = null;
-        list.tail = null;
+    // Trees & Graphs
 
-        list.addToTail = function(value) {
+    // Route Between Nodes
+
+    /*
+
+    Given a directed graph, design an algorithm to find out whether there is a
+    route between two nodes.
+
+    */
+
+    /*
+
+        I - directed graph
+        O - boolean indicating whether there is a route between two nodes
+        C - n/a
+        E - n/a
+
+    */
+
+    // Trees & Graphs
+
+    // Route Between Nodes
+
+    /*
+        Given a directed graph, design an algorithm to find out whether there is a
+        route between two nodes.
+    */
+
+    /*
+        I - directed graph
+        O - boolean indicating whether there is a route between two nodes
+        C - n/a
+        E - n/a
+    */
+
+    class LinkedList {
+        constructor() {
+            this.list = {}
+            this.head = null;
+            this.tail = null;
+        }
+
+        addToTail(value) {
             let newTail = Node(value);
-            
-            if (!list.head) {
-                list.head = newTail;
-            };
 
-            if (list.tail) {
-               list.tail.next = newTail;
-            };
-
-            list.tail = newTail;
-        };
-
-        list.removeHead = function() {
-            if (list.head === null) {
-            return null
+            if (!this.head) {
+                this.head = newTail
             }
 
-            let currentHead = list.head;
-            list.head = list.head.next;
+            if (this.tail) {
+                this.tail.next = newTail;
+            }
 
+            this.tail = newTail;
+        }
+
+        removeHead() {
+            if (this.head === null) {
+                return null
+            }
+
+            let currentHead = this.head;
+            this.head = this.head.next;
             return currentHead.value;
-        };
+        }
 
-        list.contains = function(target) {
-            let node = list.head;
+        contains() {
+            let node = this.head;
 
             while (node) {
                 if (node.value === target) {
@@ -49,119 +86,103 @@
             }
 
             return false
-        };
+        }
+    }
 
-        return list;
-    };
-    
-    var Node = function(value) {
-        var node = {};
+    const Node = value => {
+        let node = {};
 
         node.value = value;
         node.next = null;
 
         return node;
-    };
+    }
 
-    class Queue {
-        // Hey! Rewrite in the new style. Your code will wind up looking very similar,
-        // but try not not reference your old code in writing the new style.
+    class Graph {
+        // Creates a new graph object
         constructor() {
-            this.storage = {};
-            this.count = 0;
-            this.last = 1;
-            this.first = 1;
+            this.graph = {};
         }
 
-        enqueue(value) {
-            this.storage[this.last] = value;
-            this.count++;
-            this.last++;
+        // Add a node to the graph, passing in the node's value
+        addNode(node) {
+            this.graph[node] = [];
+            this.visited = false;
         }
 
-        dequeue() {
-            if (this.count > 0) {
-                let dequeued = this.storage[this.first];
-                delete this.storage[this.first];
-                this.count--;
-                this.first++;
-                return dequeued
+        // Return a boolean value indicating if the value passed as paramter is represented in the graph
+        contains(node) {
+            if (this.graph[node]) {
+                return true
+            } else {
+                return false
             }
         }
 
-        size() {
-            return this.count;
+        // Removes a node from the graph
+        removeNode(node) {
+            if (this.graph[node]) {
+                delete this.graph[node]
+            }
+        }
+
+        // Returns a boolean indicating whether two specified nodes are connected - parameters are the values of both nodes
+        hasEdge(fromNode, toNode) {
+            let nodes = this.graph[fromNode];
+            for (let i = 0; i < nodes.length; i++) {
+                if (nodes[i] === toNode) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+        }
+
+        // Connects two nodes in a graph by adding an edge between them
+        addEdge(fromNode, toNode) {
+            if (this.graph[fromNode]) {
+                this.graph[fromNode].push(parseInt(toNode));
+                this.graph[toNode].push(parseInt(fromNode));
+            } else {
+                return null
+            }
+        }
+
+        // Remove an edge between any two specified (by value) nodes
+        removeEdge() {
+            this.graph[fromNode] = true;
+            this.graph[toNode] = true;
+        }
+
+        // Pass in a callback which will be executed on each node of the graph
+        forEachNode(callback) {
+            for (const element in this.graph) {
+                callback(element)
+            }
         }
     }
 
-    class AnimalShelter {
-
-        constructor() {
-            this.allAnimals = LinkedList(); 
-            this.catQueue = new Queue;
-            this.dogQueue = new Queue;
-        }
+    let newGraph = new Graph;
+    newGraph.addNode(4);
+    newGraph.addNode(3);
+    newGraph.addNode(6);
+    newGraph.addNode(9);
+    newGraph.addEdge(6, 9);
+    
+    const findConnection = (start, end) => {
+        // take in the graph object
+        // Use Depth-First search to look at every node in the graph
+        let newList = new LinkedList;
         
-        enqueue(name, animalType, date) {
-            let newAnimal = {};
-            newAnimal.name = name;
-            newAnimal.type = animalType;
-            newAnimal.date = date;
-
-            if (animalType === 'cat') {
-                this.catQueue.enqueue(newAnimal);
-            }
-
-            if (animalType === 'dog') {
-                this.dogQueue.enqueue(newAnimal);
-            }
-
-            this.allAnimals.addToTail(newAnimal)
-        } 
-
-        dequeueAny() {
-            let earliestDate = new Date();
-            let oldestAnimal = null;
-
-            this.allAnimals.getOldest = (date) => {
-                let node = this.allAnimals.head;
-
-                while (node) {
-                    let deliveryDate = new Date(node.value.date);
-                    if (deliveryDate < earliestDate) {
-                        earliestDate = deliveryDate; 
-                        oldestAnimal = node;
-                        node = node.next  
-                    } else {
-                        node = node.next
-                    }
-                }
-            }
-
-            this.allAnimals.getOldest(earliestDate);
-            return oldestAnimal;
-        }
-
-        dequeueDog() {
-            let oldestDog = this.dogQueue.dequeue();
-            return oldestDog; 
-        }
-
-        dequeueCat() {
-            let oldestCat = this.catQueue.dequeue();
-            return oldestCat;
-        }
+        let addElement = (val) => {
+            newList.addToTail(val)
+        };
+        
+        newGraph.forEachNode(addElement);
+        return newGraph.hasEdge(start, end)
     };
 
-    let newAnimalShelter = new AnimalShelter;
-    newAnimalShelter.enqueue('Frank', 'cat', '1/20/2020');
-    newAnimalShelter.enqueue('Rommel', 'dog', '1/28/2020');
-    newAnimalShelter.enqueue('Jerry', 'dog', '2/05/2020');
-    newAnimalShelter.enqueue('Tom', 'cat', '2/09/2020');
-    newAnimalShelter.enqueue('Gary', 'dog', '2/10/2020');
-    let oldestAnimal = newAnimalShelter.dequeueAny();
-    let dog1 = newAnimalShelter.dequeueDog();
-    let cat1 = newAnimalShelter.dequeueCat();
+    console.log(findConnection(6, 9))
 
     </script>
 </head>

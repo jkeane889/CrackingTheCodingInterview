@@ -21,42 +21,42 @@ const LinkedList = () => {
     list.tail = null;
 
     list.addToTail = (value) => {
-    let newTail = Node(value);
-    
-    if (!list.head) {
-        list.head = newTail;
-    };
+        let newTail = Node(value);
+        
+        if (!list.head) {
+            list.head = newTail;
+        };
 
-    if (list.tail) {
-        list.tail.next = newTail;
-    };
+        if (list.tail) {
+            list.tail.next = newTail;
+        };
 
-    list.tail = newTail;
+        list.tail = newTail;
     };
 
     list.removeHead = () => {
-    if (list.head === null) {
-        return null
-    }
+        if (list.head === null) {
+            return null
+        }
 
-    let currentHead = list.head;
-    list.head = list.head.next;
+        let currentHead = list.head;
+        list.head = list.head.next;
 
-    return currentHead.value;
+        return currentHead.value;
     };
 
     list.contains = (target) => {
-    let node = list.head;
+        let node = list.head;
 
-    while (node) {
-        if (node.value === target) {
-        return true
+        while (node) {
+            if (node.value === target) {
+            return true
+            }
+
+            node = node.next
         }
 
-        node = node.next
-    }
-
-    return false
+        return false
     };
 
     return list;
