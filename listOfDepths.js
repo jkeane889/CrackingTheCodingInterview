@@ -41,7 +41,7 @@ const LinkedList = () => {
         }
 
         if (list.tail) {
-            list.tail.next = node
+            list.tail.next = newTail
         }
 
         list.tail = newTail
@@ -74,6 +74,33 @@ const LinkedList = () => {
     return list;
 }
 
+
+class BinaryTree {
+    constructor(val) {
+        this.root = Node(val);
+        this.right = null;
+        this.left = null 
+    }
+    
+    insert(val) {
+        var newNode = new BinaryTree(val);
+        // if less-than
+        if (this.root.value < val) {
+            if (this.right === null) {
+                this.right = newNode;
+            } else {
+                this.right.insert(val);
+            }
+        } else {
+            if (this.left === null) {
+                this.left = newNode;
+            } else {
+                this.left.insert(val);
+            }
+        }
+    }
+}
+
 const Node = (val) => {
     let node = {};
     node.value = val;
@@ -81,29 +108,40 @@ const Node = (val) => {
     return node;
 }
 
-class BinaryTree {
-    constructor(val) {
-        this.value = val;
-        this.right = null;
-        this.left = null 
+let newBT = new BinaryTree(9);
+newBT.insert(3);
+newBT.insert(11);
+newBT.insert(5);
+newBT.insert(13);
+newBT.insert(20);
+newBT.insert(7);
+newBT.insert(1);
+console.log(newBT)
+
+const levelOrderSearch = (rootNode) => {
+    // create global store for all created linkedLists
+    let listStorage = [];
+    let newList = LinkedList();
+    newList.addToTail(rootNode);
+    let current = newList.head;
+
+    while (current) {
+        listStorage.push(current);
+        if (current.value.right) {
+            newList.addToTail(current.value.right);
+        }
+
+        if (current.value.left) {
+            newList.addToTail(current.value.left);
+        }
+
+        current = current.next;
+        newList.removeHead();
     }
 
-    insert(value) {
-        let newTree = new BinaryTree(value);
-        if (!this.value) {
-            this.value = newTree;
-        }
+    return listStorage;
+};
 
-        if (!this.left) {
-            this.left = newTree;
-        }
-
-        if (!this.right) {
-            this.right = newTree;
-        }
-    }
-}
-
-
+console.log(levelOrderSearch(newBT));
 
 
