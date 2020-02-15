@@ -78,70 +78,25 @@ newBT.insert(100);
 newBT.insert(80);
 console.log(newBT)
 
-let rightHeightMax = 0;
-let rightHeight = 0;
-let leftHeightMax = 0;
-let leftHeight = 0;
-
-const checkRightBalance = (tree, height) => {
-
-    if (!tree.right && !tree.left) {
-        if (rightHeight > rightHeightMax) {
-            rightHeightMax = rightHeight;
-            rightHeight = 0;    
-            return
-        }
-    }
-
-    if (tree.right) {
-        rightHeight += 1;
-        checkRightBalance(tree.right, rightHeight)
-    }
-
-    if (tree.left && height === 0) {
-        rightHeight += 1;
-        checkRightBalance(tree.left, rightHeight)
+const getHeight = node => {
+    if (node === null) {
+        return 1
+    } else {
+        return Math.max(getHeight(node.left), getHeight(node.right)) + 1;
     }
 }
 
-const checkLeftBalance = (tree, height) => {
-
-    if (!tree.right && !tree.left) {
-        if (leftHeight > leftHeightMax) {
-            leftHeightMax = leftHeight;
-            leftHeight = 0;
-            return
-        }
+const checkHeights = (node) => {
+    if (node.root.value === null) {
+        return true
     }
 
-    if (tree.right) {
-        leftHeight += 1;
-        checkLeftBalance(tree.right, leftHeight)
+    let heightDiff = getHeight(node.left) - getHeight(node.right);
+    if (Math.abs(heightDiff) > 1) {
+        return false
+    } else {
+        return checkHeights(node.left) && checkHeights(node.right)
     }
-
-    if (tree.left && height === 0) {
-        leftHeight += 1;
-        checkLeftBalance(tree.right, leftHeight)
-    }
-}
-
-const checkHeights = () => {
-    checkRightBalance(newBT, rightHeight);
-    checkLeftBalance(newBT, leftHeight);
-    
-    if (rightHeightMax > leftHeightMax) {
-        let diff = rightHeightMax - leftHeightMax;
-        if (diff > 1) {
-            return false
-        }
-    } else if (leftHeightMax > rightHeightMax) {
-        let diff = leftHeightMax - rightHeightMax;
-        if (diff > 1) {
-            return false
-        }
-    }
-
-    return true
 };
 
-console.log(checkHeights());
+console.log(checkHeights(newBT));
