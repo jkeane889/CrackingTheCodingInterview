@@ -47,3 +47,34 @@
 
 */
 
+const successor = (value) => {
+    let successStack = [];
+
+    const findSuccessor = (value, tree) => {
+        if (!tree.right && !tree.left) {
+            return
+        }
+
+        if (tree.right) {
+            if (!successStack.length) {
+                successStack.push(tree.right.root.value)
+            }
+
+            if (tree.right.root.value > value) {
+                let diffOne = tree.right.root.value - value;
+                let diffTwo = successStack[0] - value;
+                if (diffOne < diffTwo) {
+                    successStack.pop();
+                    successStack.unshift(tree.right.root.value);    
+                }
+            }
+
+            if (tree.right.left) {
+                findSuccessor(value, tree.right)
+            }
+        }
+    }
+
+    findSuccessor(value, newBT);
+    return successStack.pop();
+};
