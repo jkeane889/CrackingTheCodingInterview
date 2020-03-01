@@ -1,0 +1,10 @@
+Coding Interview Challenge Set-Up
+
+1 Hour
+- 3 questions
+- 1 "warm-up" (20 minutes)
+- 2 "challenging" (20 minutes/question)
+- Extract hint pages ahead of time to look at
+- After 1 hour, spend next 30 minutes reviewing answers (10 minutes per question)
+
+
