@@ -7,39 +7,35 @@
     <h1>Test Here!</h1>
     <script>
 
-    const powerSet = string => {
-        let powerSetArr = [];
-        let powerSetObj = {};
-        let strArr = string.split('');
+    const convertToBinary = n => {
+        let binary = new Array(n).fill(0);
+        let i = 0;
 
-        const getPowerSet = (stringSet, stringArr) => {
-            if (!stringArr.length) {
-                return
-            };
-
-            for (let i = 0; i < stringArr.length; i++) { // [e]
-                if (!stringSet) {
-                    stringSet = []; // []
-                };
-
-                if (!stringSet.includes(stringArr[i])) {
-                    stringSet.push(stringArr[i]); // [a, b, c, d, e] 
-                    let str = stringSet.join('').toString(); // "abcde"
-                    
-                    if (!powerSetObj[str]) { // true
-                        powerSetObj[str] = str; // { abcde: "abcde" }
-                        getPowerSet(stringSet, stringArr.slice(1)); // [a, b, c, d], []
-                        stringSet.pop();
-                    };
-                };
-            };
+        while (n > 0) {
+            binary[i] = n % 2;
+            n = Math.floor(n / 2);
+            i += 1;
         };
 
-        getPowerSet(null, strArr);
-        return Object.values(powerSetObj);
+        return parseInt(binary.reverse().join(''));
     };
 
-    console.log(powerSet('abcde'));
+    const multiply = (x, y) => {
+
+        if (y === 0) {
+            return 0
+        };
+
+        if (y > 0) {
+            return (x + multiply(x, y - 1));
+        };
+
+        if (y < 0) {
+            return -multiply(x, -y);
+        };
+    };
+
+    console.log(multiply(3, 4));
 
     </script>
 </head>
