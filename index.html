@@ -7,35 +7,56 @@
     <h1>Test Here!</h1>
     <script>
 
-    const tripleStep = n => {
-        let combinations = 0;
-        
-        const getStepCombinations = (stepArr, n) => {
-            if (n < 0) {
-                return
-            };
-            
-            if (n === 0) {
-                combinations += 1;
-                return
+        const MakeGrid = n => {
+            let grid = [];
+
+            for (let i = 0; i < n; i++) {
+                grid.push([]);
+                for (let j = 0; j < n; j++) {
+                    grid[i].push(false);
+                };
             };
 
-            if (!stepArr) {
-                stepArr = [1, 2, 3];
+            grid.toggle = (i, j) => {
+                grid[i][j] = !grid[i][j];
             };
 
-            for (let i = 0; i < stepArr.length; i++) {
-                let stepType = stepArr[i];
-                n -= stepType;
-                getStepCombinations(stepArr, n);                        
+            grid.visited = (i, j) => {
+                return grid[i][j]
             };
+
+            return grid
         };
 
-        getStepCombinations(null, n);
-        return combinations;
-    };
+        let pathsCounter = n => {
+            let paths = 0;
+            let grid = MakeGrid(n);
 
-    console.log(tripleStep(10));
+            const findPaths = (i, j) => {
+                if (i === n - 1 && j === n - 1) {
+                    paths++;
+                    return;
+                };
+
+                if (i < 0 || i >= n || j < 0 || j >= n) {
+                    return
+                };
+
+                if (grid.visited(i, j)) {
+                    return
+                } else {
+                    grid.toggle(i, j);
+                    findPaths(i, j + 1);
+                    findPaths(i + 1, j);
+                    grid.toggle(i, j);
+                }
+            };
+
+            findPaths(0, 0);
+            return paths;
+        };
+
+        console.log(pathsCounter(4));
 
     </script>
 </head>
