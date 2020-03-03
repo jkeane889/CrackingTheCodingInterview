@@ -7,22 +7,38 @@
     <h1>Test Here!</h1>
     <script>
 
-    function moveNDisks( N,  fromPeg, toPeg, extraPeg ) {
-        // if there's only one disk to move, then just print the move required
-        if ( N==1 )
-            document.write( "Move disk from Peg " + fromPeg + " to " + toPeg + "<br>" );
-        else {
-            // otherwise, then call the function to move N-1 disks out of the way...
-            moveNDisks( N-1, fromPeg, extraPeg, toPeg );
-            // then move 1 disk to the destination
-            moveNDisks( 1, fromPeg, toPeg, extraPeg );
-            // and the N-1 that were out of the way should be brought back
-            moveNDisks( N-1, extraPeg, toPeg, fromPeg );
-        }
-    }
+    const permutationsWithOutDups = string => {
+        let permutations = {};
+        let stringArr = string.split('');
 
-    // now, let's try a test case with 5 disks
-    console.log(moveNDisks( 5, "A", "B", "C" ));
+        const getPermutations = (strArr, origStrArr) => {
+            if (strArr) {
+                if (strArr.length === stringArr.length) {
+                    let arrStr = strArr.join('');
+                    if (!permutations[arrStr]) {
+                        permutations[arrStr] = true;
+                        return
+                    };
+                };
+            };
+
+            if (!strArr) {
+                strArr = [];
+            };
+
+            for (let i = 0; i < origStrArr.length; i++) {
+                strArr.push(origStrArr[i]);
+                let updatedStrArr = origStrArr.slice(0, i).concat(origStrArr.slice(i + 1)); 
+                getPermutations(strArr, updatedStrArr);
+                strArr.pop();
+            };
+        };
+
+        getPermutations(null, stringArr);
+        return Object.keys(permutations);
+    };
+
+    console.log(permutationsWithOutDups("ABAC"));
 
     </script>
 </head>
