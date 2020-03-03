@@ -7,35 +7,22 @@
     <h1>Test Here!</h1>
     <script>
 
-    const convertToBinary = n => {
-        let binary = new Array(n).fill(0);
-        let i = 0;
+    function moveNDisks( N,  fromPeg, toPeg, extraPeg ) {
+        // if there's only one disk to move, then just print the move required
+        if ( N==1 )
+            document.write( "Move disk from Peg " + fromPeg + " to " + toPeg + "<br>" );
+        else {
+            // otherwise, then call the function to move N-1 disks out of the way...
+            moveNDisks( N-1, fromPeg, extraPeg, toPeg );
+            // then move 1 disk to the destination
+            moveNDisks( 1, fromPeg, toPeg, extraPeg );
+            // and the N-1 that were out of the way should be brought back
+            moveNDisks( N-1, extraPeg, toPeg, fromPeg );
+        }
+    }
 
-        while (n > 0) {
-            binary[i] = n % 2;
-            n = Math.floor(n / 2);
-            i += 1;
-        };
-
-        return parseInt(binary.reverse().join(''));
-    };
-
-    const multiply = (x, y) => {
-
-        if (y === 0) {
-            return 0
-        };
-
-        if (y > 0) {
-            return (x + multiply(x, y - 1));
-        };
-
-        if (y < 0) {
-            return -multiply(x, -y);
-        };
-    };
-
-    console.log(multiply(3, 4));
+    // now, let's try a test case with 5 disks
+    console.log(moveNDisks( 5, "A", "B", "C" ));
 
     </script>
 </head>
