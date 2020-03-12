@@ -50,6 +50,23 @@ const getGreatestSum = arr => {
     return maxSum;
 };
 
+// This is just returning the greatest calculated contiguous sequence amount
+const getGreatestSum = arr => {
+    let maxSum = 0;
+    let currentSum = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+        currentSum += arr[i];
+        if (maxSum < currentSum) {
+            maxSum = currentSum
+        } else if (currentSum < 0) {
+            currentSum = 0;
+        }
+    }
+    return maxSum;
+};
+
+
 console.log(getGreatestSum([-8, 3, -2, 4, -10]));
 
 
