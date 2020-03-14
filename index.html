@@ -6,39 +6,8 @@
     <title>Cracking the Coding Interview Testing</title>
     <h1>Test Here!</h1>
     <script>
-
-    const permutationsWithOutDups = string => {
-        let permutations = {};
-        let stringArr = string.split('');
-
-        const getPermutations = (strArr, origStrArr) => {
-            if (strArr) {
-                if (strArr.length === stringArr.length) {
-                    let arrStr = strArr.join('');
-                    if (!permutations[arrStr]) {
-                        permutations[arrStr] = true;
-                        return
-                    };
-                };
-            };
-
-            if (!strArr) {
-                strArr = [];
-            };
-
-            for (let i = 0; i < origStrArr.length; i++) {
-                strArr.push(origStrArr[i]);
-                let updatedStrArr = origStrArr.slice(0, i).concat(origStrArr.slice(i + 1)); 
-                getPermutations(strArr, updatedStrArr);
-                strArr.pop();
-            };
-        };
-
-        getPermutations(null, stringArr);
-        return Object.keys(permutations);
-    };
-
-    console.log(permutationsWithOutDups("ABAC"));
+        
+        
 
     </script>
 </head>
