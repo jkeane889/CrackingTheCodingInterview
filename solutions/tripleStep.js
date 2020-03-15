@@ -65,3 +65,35 @@ const tripleStep = n => {
     getStepCombinations(null, n);
     return combinations;
 };
+
+
+// Other answer
+var numWays = n => {
+    var answer = 0;
+
+    var recurse = function(number) {
+        if (number === 0) {
+            answer++;
+            return
+        } else if (number > 0) {
+            recurse(number - 1);
+            recurse(number - 2);
+            recurse(number - 3);
+        }
+    };
+
+    recurse(n);
+    return answer;
+};
+
+// Memoized Answer
+
+function countWays(n, memo = new Array(n).fill(-1)) {
+    if(n < 0) return 0;
+    else if(n === 0) return 1;
+    else if(memo[n] > -1) return memo[n];
+
+    memo[n] = countWays(n - 1, memo) + countWays(n - 2, memo) + countWays(n - 3, memo);
+
+    return memo[n];
+}
